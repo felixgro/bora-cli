@@ -28,11 +28,7 @@ program
 
 		// try to import argument module and execute all of it's default methods..
 		try {
-			const mod = await import(modulePath);
-
-			new ModuleExecutor(mod.default)
-				.run(iterations, precision)
-				.showResults();
+			new ModuleExecutor(modulePath).run(iterations, precision);
 		} catch (err) {
 			console.log(err);
 		}
