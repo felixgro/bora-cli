@@ -12,13 +12,13 @@ program
 	.option(
 		'-i, --iterations <number>',
 		'How often each method gets called for average execution duration',
-		50
+		1
 	)
 
 	.option(
 		'-p, --precision <number>',
 		'Amount of decimal places for resulting milliseconds',
-		2
+		0
 	)
 
 	.action(async (relModulePath, { iterations, precision }) => {

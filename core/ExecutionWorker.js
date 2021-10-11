@@ -7,33 +7,33 @@ const roundDecimals = require('../utils/roundDecimals');
 // receive data passed to worker thread..
 const { modulePath, iterations, precision } = workerData;
 
-import(modulePath)
-	.then((mod) => {
-		const defaultExports = mod.default;
-		const results = {};
+import(modulePath).then((mod) => {
+	const defaultExports = mod.default;
+	const results = {};
 
-		for (const method in defaultExports) {
-			if (typeof defaultExports[method] !== 'function') continue;
+	const argument = defaultExports['setup']
+		? defaultExports['setup'].call({})
+		: null;
 
-			let durationSum = 0;
+	for (const method in defaultExports) {
+		if (typeof defaultExports[method] !== 'function' || method === 'setup')
+			continue;
 
-			for (let i = 0; i < parseInt(iterations); i++) {
-				const timer = createTimer();
+		const timer = createTimer();
+		let durationSum = 0;
 
-				timer.start();
-				defaultExports[method].call({});
-				durationSum += timer.stop();
-			}
-
-			// calculate avarage execution time with specified precision and store it within results..
-			results[method] = roundDecimals(
-				durationSum / iterations,
-				parseInt(precision)
-			);
+		for (let i = 0; i < parseInt(iterations); i++) {
+			timer.start();
+			defaultExports[method].call({}, argument);
+			durationSum += timer.stop();
 		}
 
-		parentPort.postMessage(results);
-	})
-	.catch(() => {
-		throw new Error(`Cannot find module ${modulePath}`);
-	});
+		// calculate avarage execution time with specified precision and store it within results..
+		results[method] = roundDecimals(
+			durationSum / iterations,
+			parseInt(precision)
+		);
+	}
+
+	parentPort.postMessage(results);
+});

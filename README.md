@@ -1,6 +1,12 @@
 Create node module file for performance testing:
 ```js
 module.exports = {
+	// returned value will be used as parameter for testing methods
+	setup: () => {
+		//
+	},
+
+	// methods for execution duration comparisons
 	methodA: () => {
 		//
 	},
