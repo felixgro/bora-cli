@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 const ModuleExecutor = require('./core/ModuleExecutor');
-const program = require('commander');
+const createFile = require('./utils/createFile');
 const pkg = require('./package.json');
+const program = require('commander');
+const { join } = require('path');
 
 program
 	.name(pkg.name)
@@ -21,17 +23,23 @@ program
 		0
 	)
 
-	.action(async (relModulePath, { iterations, precision }) => {
-		// get absolute module path..
-		const path = require('path');
-		const modulePath = path.join(process.cwd(), relModulePath);
+	.option('-n, --new', 'Create new meassuring module', false);
 
-		// try to import argument module and execute all of it's default methods..
-		try {
-			new ModuleExecutor(modulePath).run(iterations, precision);
-		} catch (err) {
-			console.log(err);
+program.action(async (relModulePath, opts) => {
+	// get absolute module path..
+	const modulePath = join(process.cwd(), relModulePath);
+
+	// try to import argument module and execute all of it's default methods..
+	try {
+		if (opts.new) {
+			createFile(modulePath, '.js');
+		} else {
+			const executor = new ModuleExecutor(modulePath);
+			executor.run(opts.iterations, opts.precision);
 		}
-	})
+	} catch (err) {
+		console.log(err);
+	}
+});
 
-	.parse(process.argv);
+program.parse(process.argv);

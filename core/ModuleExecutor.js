@@ -23,7 +23,7 @@ class ModuleExecutor {
 
 		worker.addListener('message', (res) => {
 			this.spinner.stop(true);
-			Print.successData(res);
+			Print.resultingData(res);
 		});
 	}
 }
