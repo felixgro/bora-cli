@@ -1,28 +1,25 @@
-Create node module file for performance testing:
-```js
-module.exports = {
-	// returned value will be used as parameter for testing methods
-	setup: () => {
-		//
-	},
+# bora-cli
 
-	// methods for execution duration comparisons
-	methodA: () => {
-		//
-	},
+Compare execution duration of various javascript functions.
 
-	methodB: () => {
-		//
-	},
-};
+## Installation
+Install bora globally on your system using npm:
+```bash
+npm i -g bora-cli
 ```
 
-Make CLI globally available:
-```bash
-sudo npm link
+## Usage
 ```
+Usage: bora [options] <module>
 
-Run CLI:
-```bash
-perfjs file_to_test.js
+Arguments:
+  module                     Node module for execution duration meassuring
+
+Options:
+  -V, --version              output the version number
+  -i, --iterations <number>  How often each method gets called for average
+                             execution duration (default: 1)
+  -p, --precision <number>   Amount of decimal places for resulting
+                             milliseconds (default: 0)
+  -h, --help                 display help for command
 ```

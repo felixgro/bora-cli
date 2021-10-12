@@ -6,7 +6,7 @@ const program = require('commander');
 const { join } = require('path');
 
 program
-	.name(pkg.name)
+	.name(Object.keys(pkg.bin)[0])
 	.version(pkg.version)
 
 	.argument('<module>', 'Module for execution duration meassuring')
@@ -21,9 +21,7 @@ program
 		'-p, --precision <number>',
 		'Amount of decimal places for resulting milliseconds',
 		0
-	)
-
-	.option('-n, --new', 'Create new meassuring module', false);
+	);
 
 program.action(async (relModulePath, opts) => {
 	// get absolute module path..

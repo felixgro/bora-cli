@@ -1,9 +1,11 @@
 {
-	"name": "perfjs",
-	"version": "0.0.1",
+	"name": "bora-cli",
+	"version": "1.0.0",
 	"description": "Show avarage execution duration of exported node methods.",
-	"main": "index.js",
-	"bin": "./cli.js",
+	"main": "cli.js",
+	"bin": {
+		"bora": "./cli.js"
+	},
 	"scripts": {},
 	"author": "Felix Grohs",
 	"license": "MIT",
