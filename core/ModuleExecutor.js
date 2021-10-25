@@ -5,7 +5,7 @@ const path = require('path');
 
 class ModuleExecutor {
 	constructor(mod) {
-		this.module = mod;
+		this.modulePath = mod;
 		this.workerPath = path.join(__dirname, './ExecutionWorker.js');
 		this.spinner = new Spinner('Executing Methods');
 	}
@@ -13,11 +13,10 @@ class ModuleExecutor {
 	run(iterations, precision) {
 		this.spinner.start();
 
-		// TODO: worker thread error handling
 		// spawns worker thread for method executions and execution time calculations..
 		const worker = new Worker(this.workerPath, {
 			workerData: {
-				modulePath: this.module,
+				modulePath: this.modulePath,
 				iterations,
 				precision,
 			},
@@ -28,6 +27,8 @@ class ModuleExecutor {
 			this.spinner.stop(true);
 			Print.resultingData(res);
 		});
+
+		// TODO: worker thread error handling
 	}
 }
 
