@@ -1,6 +1,6 @@
 {
 	"name": "bora-cli",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"description": "Show avarage execution duration of exported node methods.",
 	"main": "cli.js",
 	"bin": {
