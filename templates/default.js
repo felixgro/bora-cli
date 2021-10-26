@@ -1,9 +1,7 @@
 module.exports = {
-	setup: () => {
+	setup() {
 		return [];
 	},
 
-	test: () => {
-		//
-	},
+	test() {},
 };

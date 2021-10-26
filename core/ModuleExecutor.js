@@ -23,9 +23,9 @@ class ModuleExecutor {
 		});
 
 		// worker done!
-		worker.addListener('message', (res) => {
+		worker.addListener('message', ([results, logs]) => {
 			this.spinner.stop(true);
-			Print.resultingData(res);
+			Print.resultingData(results, logs);
 		});
 
 		// TODO: worker thread error handling

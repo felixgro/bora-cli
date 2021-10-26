@@ -1,4 +1,5 @@
 const { workerData, parentPort } = require('worker_threads');
+const Logger = require('../lib/Logger');
 const createTimer = require('../utils/createTimer');
 const roundDecimals = require('../utils/roundDecimals');
 
@@ -18,6 +19,9 @@ import(modulePath).then((mod) => {
 	let arguments = defaultExports['setup'] ? defaultExports['setup'].call({}) : null;
 	if (!(arguments instanceof Array)) arguments = [arguments];
 
+	// store all logs from within each testing function
+	const logger = new Logger();
+
 	for (const method in defaultExports) {
 		// check if current method is callable and exclude the previously executed setup method.
 		if (typeof defaultExports[method] !== 'function' || method === 'setup') continue;
@@ -25,10 +29,15 @@ import(modulePath).then((mod) => {
 		const timer = createTimer();
 		let durationSum = 0;
 
+		logger._setActive(true);
+		logger._setMethod(method);
+		
 		for (let i = 0; i < parseInt(iterations); i++) {
 			timer.start();
-			defaultExports[method].call({}, ...arguments);
+			defaultExports[method].call(logger, ...arguments);
 			durationSum += timer.stop();
+
+			if (i === 0) logger._setActive(false);
 		}
 
 		// calculate avarage execution time with specified precision and store it within results..
@@ -36,5 +45,5 @@ import(modulePath).then((mod) => {
 	}
 
 	// send resulting data back to main thread
-	parentPort.postMessage(results);
+	parentPort.postMessage([results, logger._logs]);
 });
