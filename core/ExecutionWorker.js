@@ -5,9 +5,10 @@ const roundDecimals = require('../utils/roundDecimals');
 // received data passed to worker thread..
 const { modulePath, iterations, precision } = workerData;
 
+// load the requests module..
 import(modulePath).then((mod) => {
-	// all methods and variables defined exported from testing module.
 	const defaultExports = mod.default;
+	
 	// results[methodName]: avarage execution duration in ms
 	const results = {};
 
