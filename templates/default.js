@@ -1,13 +1,9 @@
 module.exports = {
 	setup: () => {
-		//
+		return [];
 	},
 
-	methodA: () => {
-		//
-	},
-
-	methodB: () => {
+	test: () => {
 		//
 	},
 };
