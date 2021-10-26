@@ -2,8 +2,7 @@ module.exports = {
 	// magic setup method which will NOT be tested
 	setup() {
 		// create and fill an array for comparing different iteration methods
-		const arr = [];
-		for (let i = 0; i < 10000; i++) arr.push(i);
+		const arr = Array.from({ length: 10000 }).map((_, i) => i);
 
 		// returned array values will be used as arguments for testing methods
 		return [arr];
